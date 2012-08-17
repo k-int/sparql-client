@@ -1,0 +1,116 @@
+div#first {
+        width: 1100px;
+}
+div#buttons{
+}
+textarea#query {
+	width: 1024px;
+	height: 120px;
+	border: 3px solid #999999;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(query.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+textarea#tempres {
+        width: 1024px;
+        height: 550px;
+        border: 3px solid #999999;
+        padding: 5px;
+        font-family: Tahoma, sans-serif;
+	background-image: url(result.gif);
+        background-position: bottom right;
+        background-repeat: no-repeat;
+}
+div#reslt {
+        width: 1024px;
+        height: 550px;
+        border: 3px solid #999999;
+        padding: 5px;
+        font-family: Tahoma, sans-serif;
+	background: white;
+	        background-image: url(result.gif);
+        background-position: bottom right;
+        background-repeat: no-repeat;
+}
+
+input#soft {
+        border: 3px solid #999999;
+        padding: 5px;
+        font-family: Tahoma, sans-serif;
+}
+em#solftlim {
+	 font-family: Tahoma, sans-serif;
+}
+h1#title {
+	font-family: Tahoma, sans-serif;
+	margin:0;
+	color: #666666;
+	font-size: 40px;
+	font-weight: bold;
+	display: inline;
+}
+body {
+	margin: 0 auto;
+	text-align: center;
+	min-width: 760px;
+	background: url("back.png") repeat scroll 0 0 white;
+    	position: relative;
+	
+	
+}
+table {
+    border: 1px solid #E8EEF4;
+    border-collapse: collapse;
+}
+table td {
+    border: 1px solid #E8EEF4;
+    padding: 5px;
+}
+table th {
+    background-color: #E8EEF4;
+    border: 1px solid #E8EEF4;
+    padding: 6px 5px;
+    text-align: left;
+}
+table tr.alt1 {
+    background-color: #CECECE;
+    border: 1px solid #E8EEF4;
+    border-collapse: collapse;
+}
+table tr.alt2 {
+    background-color: #F4F4F4;
+    border: 1px solid #E8EEF4;
+    border-collapse: collapse;
+}
+body table {
+    font-size: 1.4em;
+}
+tbody.scrollContent td, tbody.scrollContent tr.normalRow td {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #DDDDDD #CCCCCC -moz-use-text-color -moz-use-text-color;
+    border-style: solid solid none none;
+    border-width: 1px 1px medium medium;
+    padding: 2px 3px 3px 4px;
+}
+tbody.scrollContent tr.alternateRow td {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-color: #DDDDDD #CCCCCC -moz-use-text-color -moz-use-text-color;
+    border-style: solid solid none none;
+    border-width: 1px 1px medium medium;
+    padding: 2px 3px 3px 4px;
+}
+
+.spinner {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -20px; /* half width of the spinner gif */
+	margin-top: -20px; /* half height of the spinner gif */
+	text-align:center;
+	z-index:1234;
+	overflow: auto;
+	width: 150px; /* width of the spinner gif */
+	height: 150px; /*hight of the spinner gif +2px to fix IE8 issue */
+}

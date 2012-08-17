@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head style="background-color:#cccccc;solid;">
+  <script type="text/javascript" src="jquery.js"></script>
+  <LINK href="style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<div align="center">
+<div id="first" >
+<br>
+<div align="left"><h1 id="title">4store query viewer </h1></div>
+<br>
+<br>
+
+ <form action="/sparql/" id="queryform" method="post" target="_blank">
+<div>
+<textarea type="input" name="query" id="query">PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; SELECT * WHERE { ?s ?p ?o } LIMIT 10 </textarea>
+</div>
+<br>
+<div align="right" id="buttons">
+<em type="text" id="solftlim"> Syntax</em>
+<label for="syntax">Syntax</label>
+<select id="syntax" name="Syntax">
+<option>HtmlResults</option>
+<option>RdfXml</option>
+</select>
+<em type="text" id="solftlim"> Soft limit</em>
+<input type="text" name="soft-limit" id="soft">
+<input type="submit" value="Execute">
+<input type="reset">
+&nbsp &nbsp&nbsp&nbsp
+</div>
+</form>
+
+
+<br>
+  <!-- the result of the search will be rendered inside this div --> 
+<div id="spinner" class="spinner" style="display:none;">
+	<img id="img-spinner" src="spinner.gif" alt"loading"/>
+</div>
+ 
+<div id="result">
+
+</div>
+<div id="tablediv"></div>
+<div align="right">
+Knowledge Integration Ltd. &nbsp 
+&nbsp &nbsp
+</div>
+</div>
+
+<script>
+  /* attach a submit handler to the form */
+	
+  $("#queryform").submit(function(event) {
+
+    /* stop form from submitting normally */
+        event.preventDefault(); 
+        
+    /* get some values from elements on the page: */
+	var hr = new XMLHttpRequest();
+    var $form = $( this ),
+        term = $form.find( 'textarea[name="query"]' ).val(),
+        url = $form.attr( 'action' );
+
+    /* Send the data using post and put the results in a div */
+    //$.post( url, { s: term },
+//	alert("The query can take up to one minute to return.");
+	hr.open("POST", url, true);
+//	alert(url + "?query=" + term );
+	hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//	alert("starting5");
+//	var return_data = hr.responseText;
+//	alert(return_data);
+//	$( "#result" ).append(return_data);
+//	alert(hr.readyState + " " + hr.status);
+	hr.onreadystatechange = function()
+	{
+//		alert(hr.readyState + " " + hr.status);
+		$("#spinner").show();
+		if(hr.readyState == 4)
+		{ 
+//			alert("readyState == 4");
+
+			if(hr.status == 200)
+			{	
+				
+//				alert("200Found");
+				var return_data = hr.responseText;
+				var e = document.getElementById("syntax");
+				var val = e.options[e.selectedIndex].text;
+		//		alert(return_data);
+			//	if($("#sytax")
+		//		alert(val);
+	//			var resDiv = document.getElementById("result");
+				if(val == "RdfXml"){
+					$("#spinner").hide();
+//					alert("starting3");
+					$('#result').html("<textarea id='tempres' >" + return_data + "</textarea>");
+				//	<textarea id="tempres" ></textarea>
+				//        $( "#tempres" ).val( return_data );
+				}
+				else if(val == "HtmlResults"){
+				$("#spinner").hide();
+				
+				//$("#tablediv").append("<table border='1'>");
+					xmlDoc = $.parseXML( return_data );
+					var headel=xmlDoc.getElementsByTagName("head");
+					var subject1=headel[0].getElementsByTagName("variable")[0].getAttribute("name");
+			//		alert(subject1);
+					var predicate1=headel[0].getElementsByTagName("variable")[1].getAttribute("name");
+			//		alert(predicate1);
+					var object1=headel[0].getElementsByTagName("variable")[2].getAttribute("name");
+			//		alert(object1);
+					var x=xmlDoc.getElementsByTagName("result");
+			//		alert(x);
+					var first=new Boolean();
+					first = true;
+					var second=new Boolean();
+					second = true;
+					var td = "<table border = '1'><tbody><tr><td width='100px'><b>Result</b></td><td width='100px'><b>Binding</b></td><td width='744px'><b>Value</b></td></tr>";
+					var i2 = 1;
+					var i = 0;
+					var i3 = 00;
+					var altbool = true;
+					var alt = "alt1";
+			//		alert(x.length);
+					while (i<x.length)
+  						{
+					//	alert("i2="+i2+" , first="+first+" , second="+second);  
+						td = td + "<tr class='" + alt + "' width='944px'>";
+							if(x[0].getElementsByTagName("binding")[i3].getAttribute("name") == subject1) {
+									td = td + "<td width='100px'>" + i2 + "</td>";
+  									td = td + "<td width='100px'>"+subject1+"</td>";
+  									td = td + "<td width='744px'>" + x[i].getElementsByTagName("binding")[0].textContent + "</td>";
+							first = false;
+							}
+							else if(x[0].getElementsByTagName("binding")[i3].getAttribute("name") == predicate1){
+                                                                        td = td + "<td width='100px'></td>";
+                                                                        td = td + "<td width='100px'>" + predicate1 + "</td>";
+                                                                        td = td + "<td width='744px'>" + x[i].getElementsByTagName("binding")[1].textContent + "</td>";
+                                                        second = false;
+                                                        }
+							else if(x[0].getElementsByTagName("binding")[i3].getAttribute("name") == object1){
+                                                                        td = td + "<td width='100px'></td>";
+                                                                        td = td + "<td width='100px'>" + object1 + "</td>";
+                                                                        td = td + "<td width='744px'>" + x[i].getElementsByTagName("binding")[2].textContent + "</td>";
+                                                        first = true;
+							second = true;
+							i2++;
+							i++;
+							if(altbool){
+							altbool = false;
+							alt = "alt2"	
+                                                        }
+							else{
+							altbool = true;
+							alt = "alt1";
+							}}
+							i3++;
+							if (i3 == 3){
+								i3 = 0;
+							
+							}
+  						}	
+						td = td + "</tbody></table>";	
+						$("#result").html(td);
+		//		$( "#tempres" ).val( "Not Yet Implemented sorry" );
+		//		alert("not yet implemented");
+						}
+			}
+			else if(hr.status == 503){
+			$("#spinner").hide();
+			alert("Service is currently down for maintenance, Please try again later");
+			}
+			else
+			{	
+				$("#spinner").hide();
+				alert("Unable to return query please check you can connect to the 4store and the Query is valid");
+			}
+		}
+		else
+		{	
+//			alert("in else");
+			var nt = "nothing there";	
+		//	$( "#result" ).empty().append( "nt" );
+		}
+ 	 };
+//	alert("hrSend");
+	hr.send("query=" +term);
+//	alert("hrsendFinished");
+});
+  
+</script>
+
+</body>
+</html>
